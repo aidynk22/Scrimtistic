@@ -1,4 +1,4 @@
-# Scrimtastic
+# Scrimtistic
 Scrimtastic is a Varisty Scrimmage Data Viewer that provides Users
 
 ## Project Structure
