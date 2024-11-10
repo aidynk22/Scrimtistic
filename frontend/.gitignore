@@ -80,3 +80,6 @@ azure.json
 dist/
 build/
 out/
+
+# Specific certificate files
+rds-ca-bundle.pem
