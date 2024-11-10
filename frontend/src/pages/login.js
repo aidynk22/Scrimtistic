@@ -6,7 +6,7 @@ import './login.css';
 function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   });
   const [error, setError] = useState('');
@@ -14,8 +14,8 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await loginUser(formData.username, formData.password);
-      navigate('/dashboard'); // Add a dashboard route later
+      await loginUser(formData.email, formData.password);
+      navigate('/dashboard');
     } catch (error) {
       setError(error.response?.data?.error || 'Login failed');
     }
@@ -27,10 +27,10 @@ function Login() {
       {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          placeholder="Username"
-          value={formData.username}
-          onChange={(e) => setFormData({...formData, username: e.target.value})}
+          type="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={(e) => setFormData({...formData, email: e.target.value})}
           required
         />
         <input
@@ -43,8 +43,8 @@ function Login() {
         />
         <button type="submit">Login</button>
       </form>
-      <button className="back-button" onClick={() => navigate('/welcome')}>
-        Back to Welcome
+      <button className="back-button" onClick={() => navigate('/')}>
+        Back to Home
       </button>
     </div>
   );

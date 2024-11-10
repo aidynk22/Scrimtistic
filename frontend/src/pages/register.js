@@ -7,12 +7,14 @@ import '../styles/shared.css';
 function Register() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    team_name: '',
     email: '',
-    player_ign: '',
-    name: '',
-    role: ''
+    password: '',
+    player: {
+      ign: '',
+      name: '',
+      role: ''
+    }
   });
   const [error, setError] = useState('');
 
@@ -20,12 +22,14 @@ function Register() {
     e.preventDefault();
     try {
       await registerUser({
-        username: formData.username,
-        password: formData.password,
+        team_name: formData.team_name,
         email: formData.email,
-        player_ign: formData.player_ign,
-        name: formData.name,
-        role: formData.role
+        password: formData.password,
+        player: {
+          ign: formData.player.ign,
+          name: formData.player.name,
+          role: formData.player.role
+        }
       });
       navigate('/login');
     } catch (error) {
@@ -38,56 +42,68 @@ function Register() {
       <h2>Register for Scrimtastic</h2>
       {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={formData.username}
-          onChange={(e) => setFormData({...formData, username: e.target.value})}
-          autoComplete="username"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={(e) => setFormData({...formData, password: e.target.value})}
-          autoComplete="new-password"
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={(e) => setFormData({...formData, email: e.target.value})}
-          autoComplete="email"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Player IGN"
-          value={formData.player_ign}
-          onChange={(e) => setFormData({...formData, player_ign: e.target.value})}
-          autoComplete="off"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={formData.name}
-          onChange={(e) => setFormData({...formData, name: e.target.value})}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Role"
-          value={formData.role}
-          onChange={(e) => setFormData({...formData, role: e.target.value})}
-          required
-        />
-        <button type="submit">Register</button>
+        <div className="form-section">
+          <h3>Team Information</h3>
+          <input
+            type="text"
+            placeholder="Team Name"
+            value={formData.team_name}
+            onChange={(e) => setFormData({...formData, team_name: e.target.value})}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Team Email"
+            value={formData.email}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={(e) => setFormData({...formData, password: e.target.value})}
+            required
+          />
+        </div>
+        
+        <div className="form-section">
+          <h3>Team Captain Information</h3>
+          <input
+            type="text"
+            placeholder="In-Game Name (IGN)"
+            value={formData.player.ign}
+            onChange={(e) => setFormData({
+              ...formData, 
+              player: {...formData.player, ign: e.target.value}
+            })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={formData.player.name}
+            onChange={(e) => setFormData({
+              ...formData, 
+              player: {...formData.player, name: e.target.value}
+            })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Role"
+            value={formData.player.role}
+            onChange={(e) => setFormData({
+              ...formData, 
+              player: {...formData.player, role: e.target.value}
+            })}
+            required
+          />
+        </div>
+        <button type="submit">Register Team</button>
       </form>
-      <button className="back-button" onClick={() => navigate('/welcome')}>
-        Back to Welcome
+      <button className="back-button" onClick={() => navigate('/')}>
+        Back to Home
       </button>
     </div>
   );

@@ -3,11 +3,11 @@ from django.contrib.auth.hashers import make_password
 
 # Create your models here.
 
-class Login(models.Model):
-    username = models.CharField(db_column='username', max_length=255, primary_key=True)
-    password_hash = models.CharField(db_column='password_hash', max_length=255)
-    email = models.CharField(db_column='email', max_length=255)
-    player_ign = models.CharField(db_column='player_ign', max_length=255)
+class Team(models.Model):
+    team_id = models.CharField(primary_key=True, max_length=255)
+    team_name = models.CharField(unique=True, max_length=255)
+    password_hash = models.CharField(max_length=255)
+    email = models.CharField(unique=True, max_length=255)
 
     def save(self, *args, **kwargs):
         if not self.password_hash.startswith('pbkdf2_sha256$'):
@@ -15,13 +15,14 @@ class Login(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        db_table = 'Login'
+        db_table = 'Team'
         managed = False
 
 class Player(models.Model):
-    ign = models.CharField(db_column='IGN', max_length=255, primary_key=True)
+    ign = models.CharField(db_column='IGN', primary_key=True, max_length=255)
     name = models.CharField(db_column='Name', max_length=255)
     role = models.CharField(db_column='Role', max_length=100)
+    team = models.ForeignKey(Team, models.CASCADE, db_column='Team_ID')
 
     class Meta:
         db_table = 'Player'
