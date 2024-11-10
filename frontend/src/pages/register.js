@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../api';
-import './register.css';
 import '../styles/shared.css';
 
 function Register() {

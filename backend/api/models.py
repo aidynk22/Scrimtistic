@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.hashers import make_password
 
 # Create your models here.
 
@@ -8,11 +7,6 @@ class Team(models.Model):
     team_name = models.CharField(unique=True, max_length=255)
     password_hash = models.CharField(max_length=255)
     email = models.CharField(unique=True, max_length=255)
-
-    def save(self, *args, **kwargs):
-        if not self.password_hash.startswith('pbkdf2_sha256$'):
-            self.password_hash = make_password(self.password_hash)
-        super().save(*args, **kwargs)
 
     class Meta:
         db_table = 'Team'

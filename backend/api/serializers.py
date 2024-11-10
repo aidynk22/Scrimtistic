@@ -15,23 +15,17 @@ class TeamRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = ['team_name', 'email', 'password', 'player']
-        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         player_data = validated_data.pop('player')
         password = validated_data.pop('password')
-        
-        # Generate a unique team_id
         team_id = str(uuid.uuid4())
         
-        # Create the team
         team = Team.objects.create(
             team_id=team_id,
-            password_hash=password,
+            password_hash=make_password(password),
             **validated_data
         )
         
-        # Create the associated player
         Player.objects.create(team=team, **player_data)
-        
-        return team 
+        return team
