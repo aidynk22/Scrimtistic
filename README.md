@@ -1,5 +1,5 @@
 # Scrimtistic
-Scrimtastic is a Varisty Scrimmage Data Viewer that provides Users
+Scrimtistic is a Varisty Scrimmage Data Viewer that provides Users
 
 ## Project Structure
 * backend/:
