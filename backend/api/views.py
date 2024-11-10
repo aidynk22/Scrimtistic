@@ -49,13 +49,12 @@ def test_db(request):
         print("All users in database:", all_users)
         
         # Try to get the specific test user
-        test_user = Team.objects.get(team_name='will')
+        test_user = Team.objects.get(team_name='fpv')
         return Response({
             'message': 'Database connection successful',
             'user_found': {
                 'team_name': test_user.team_name,
-                'email': test_user.email,
-                'player_ign': test_user.player_ign
+                'email': test_user.email
             }
         })
     except Team.DoesNotExist:
