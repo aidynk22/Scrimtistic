@@ -9,7 +9,7 @@
 # Production
 /build
 
-# Environment Variables
+# Environment Variables and Secrets
 .env
 .env.*
 !.env.example
@@ -17,6 +17,8 @@
 .env.development.local
 .env.test.local
 .env.production.local
+*.env
+.env.backup
 
 # Debug Logs
 npm-debug.log*
@@ -31,19 +33,50 @@ logs
 *.swp
 *.swo
 .DS_Store
+*.sublime-*
+.project
+.settings/
+.classpath
 
-# SSL/TLS Certificates
+# SSL/TLS Certificates and Keys
 *.key
 *.crt
 *.pem
+*.cert
+*.ca-bundle
+rds-ca-bundle.pem
+*.pfx
+*.p12
+*.keystore
 
 # API Keys and Secrets
 *config.json
 *secrets.json
+*.secret
+*credential*
+*password*
+aws.json
+gcp.json
+azure.json
 
 # Local Database Files
 *.sqlite
 *.db
+*.sql
+*.dump
 
 # Misc
 .DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.bak
+*.cache
+*.tmp
+.history/
+
+# Build artifacts
+dist/
+build/
+out/
