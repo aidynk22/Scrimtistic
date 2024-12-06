@@ -102,7 +102,7 @@ function Register() {
         <button type="submit">Register Team</button>
       </form>
       <button className="back-button" onClick={() => navigate('/')}>
-        Back to Home
+        Back
       </button>
     </div>
   );
