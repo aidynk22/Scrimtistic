@@ -32,7 +32,23 @@ function Register() {
       });
       navigate('/login');
     } catch (error) {
-      setError(error.response?.data?.error || 'Registration failed');
+      const errorData = error.response?.data;
+      if (typeof errorData === 'object') {
+        // Handle nested validation errors
+        const errorMessages = [];
+        for (const [key, value] of Object.entries(errorData)) {
+          if (key === 'player') {
+            for (const [playerKey, playerValue] of Object.entries(value)) {
+              errorMessages.push(`${playerKey}: ${playerValue}`);
+            }
+          } else {
+            errorMessages.push(`${key}: ${value}`);
+          }
+        }
+        setError(errorMessages.join('\n'));
+      } else {
+        setError(errorData?.error || 'Registration failed');
+      }
     }
   };
 
@@ -63,6 +79,7 @@ function Register() {
             value={formData.password}
             onChange={(e) => setFormData({...formData, password: e.target.value})}
             required
+            autoComplete="new-password"
           />
         </div>
         

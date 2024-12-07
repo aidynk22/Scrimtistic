@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../api';
+import { loginUser } from '../api/index';
 import '../styles/shared.css';
 
 function Login() {
@@ -14,7 +14,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await loginUser(formData.email, formData.password);
+      await loginUser(formData);
       navigate('/home');
     } catch (error) {
       setError(error.response?.data?.error || 'Login failed');
