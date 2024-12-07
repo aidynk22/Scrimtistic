@@ -43,7 +43,7 @@ function HomePage() {
     // Apply search filter
     if (searchTerm) {
       filtered = filtered.filter(match => 
-        match.Game_Title.toLowerCase().includes(searchTerm.toLowerCase())
+        match.Match_Name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -79,7 +79,7 @@ function HomePage() {
         <div className="match-controls">
           <input
             type="text"
-            placeholder="Search by game title..."
+            placeholder="Search by match name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
@@ -108,7 +108,7 @@ function HomePage() {
             >
               <div className="match-info">
                 <div className="match-header">
-                  <span className="game-title">{match.Game_Title}</span>
+                  <span className="game-title">{match.Match_Name}</span>
                   <span className={`match-result ${match.Result.toLowerCase()}`}>
                     {match.Result}
                   </span>

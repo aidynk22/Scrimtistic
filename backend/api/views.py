@@ -292,13 +292,14 @@ def get_team_matches(request, team_id):
                 total_kills = sum(stat.kills for stat in stats)
                 total_deaths = sum(stat.deaths for stat in stats)
                 total_assists = sum(stat.assists for stat in stats)
-                first_bloods = sum(1 for stat in stats if stat.first_blood)
+                first_bloods = sum(stat.first_blood for stat in stats)
                 
                 # Get the team score and result from any player's stats (should be same for all)
                 team_stats = stats.first()
                 
                 match_data.append({
                     'Match_ID': match.match_id,
+                    'Match_Name': match.match_name,
                     'Game_Title': match.game.title,
                     'Match_Date': match.match_date,
                     'Match_Time': match.match_time,
@@ -315,6 +316,7 @@ def get_team_matches(request, team_id):
                 print(f"Error processing match {match.match_id}: {str(e)}")
                 match_data.append({
                     'Match_ID': match.match_id,
+                    'Match_Name': match.match_name,
                     'Game_Title': match.game.title,
                     'Match_Date': match.match_date,
                     'Match_Time': match.match_time,
@@ -363,32 +365,53 @@ def update_match_statistics(request, match_id):
     try:
         match = Matches.objects.get(match_id=match_id)
         statistics = request.data
+        print("Received statistics update:", statistics)  # Debug log
 
         for stat in statistics:
             try:
                 player = Player.objects.get(ign=stat['Player_IGN'])
                 match_stat = MatchStatistics.objects.get(match=match, player=player)
                 
-                # Update fields
-                match_stat.kills = stat['Kills']
-                match_stat.deaths = stat['Deaths']
-                match_stat.assists = stat['Assists']
-                match_stat.first_blood = stat['First_Blood']
-                match_stat.team_score = stat['Score']
-                match_stat.result = 'WIN' if stat['Wins'] > 0 else 'LOSS'
+                # Convert string values to integers
+                match_stat.kills = int(stat['Kills'])
+                match_stat.deaths = int(stat['Deaths'])
+                match_stat.assists = int(stat['Assists'])
+                match_stat.first_blood = int(stat['First_Blood'])
+                match_stat.team_score = int(stat['Score'])
+                match_stat.enemy_score = match_stat.enemy_score  # Keep existing value
+                match_stat.result = 'WIN' if int(stat['Wins']) > 0 else 'LOSS'
                 
                 # Parse playtime string to time object
                 try:
-                    hours, minutes = map(int, stat['Playtime'].split(':'))
-                    match_stat.playtime = time(hours, minutes)
-                except ValueError:
+                    if ':' in stat['Playtime']:
+                        hours, minutes = map(int, stat['Playtime'].split(':'))
+                        match_stat.playtime = time(hours, minutes)
+                    else:
+                        match_stat.playtime = time(0, 0)
+                except (ValueError, TypeError):
+                    print(f"Error parsing playtime: {stat['Playtime']}")
                     match_stat.playtime = time(0, 0)
                 
                 match_stat.save()
+                print(f"Updated stats for player {player.ign}")  # Debug log
+                
+            except Player.DoesNotExist:
+                print(f"Player not found: {stat['Player_IGN']}")
+                return Response(
+                    {'error': f'Player not found: {stat["Player_IGN"]}'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
             except MatchStatistics.DoesNotExist:
+                print(f"Stats not found for player: {stat['Player_IGN']}")
                 return Response(
                     {'error': f'Statistics not found for player {stat["Player_IGN"]}'},
                     status=status.HTTP_404_NOT_FOUND
+                )
+            except Exception as e:
+                print(f"Error updating stats for {stat['Player_IGN']}: {str(e)}")
+                return Response(
+                    {'error': f'Error updating stats: {str(e)}'},
+                    status=status.HTTP_400_BAD_REQUEST
                 )
 
         # Get updated statistics
