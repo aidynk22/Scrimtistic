@@ -46,7 +46,7 @@ class MatchStatistics(models.Model):
     team_score = models.IntegerField(db_column='Team_Score', default=0)
     enemy_score = models.IntegerField(db_column='Enemy_Score', default=0)
     result = models.CharField(db_column='Result', max_length=10)
-    first_blood = models.BooleanField(db_column='First_Blood', default=False)
+    first_blood = models.IntegerField(db_column='First_Blood', default=0)
     kills = models.IntegerField(db_column='Kills', default=0)
     deaths = models.IntegerField(db_column='Deaths', default=0)
     assists = models.IntegerField(db_column='Assists', default=0)

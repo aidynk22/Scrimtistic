@@ -8,6 +8,7 @@ from .serializers import TeamRegistrationSerializer, GameSerializer, MatchSerial
 import uuid
 from datetime import datetime
 import base64
+from datetime import time
 
 # Create your views here.
 
@@ -359,26 +360,29 @@ def get_team_data(request, team_id):
 
 @api_view(['PUT'])
 def update_match_statistics(request, match_id):
-    """Update match statistics"""
     try:
         match = Matches.objects.get(match_id=match_id)
-        updated_stats = request.data
+        statistics = request.data
 
-        for stat in updated_stats:
+        for stat in statistics:
             try:
-                match_stat = MatchStatistics.objects.get(
-                    match=match,
-                    player__player_ign=stat['Player_IGN']
-                )
+                player = Player.objects.get(ign=stat['Player_IGN'])
+                match_stat = MatchStatistics.objects.get(match=match, player=player)
                 
-                # Update statistics
-                match_stat.team_score = stat['Score']
-                match_stat.first_blood = bool(stat['First_Blood'])
+                # Update fields
                 match_stat.kills = stat['Kills']
                 match_stat.deaths = stat['Deaths']
                 match_stat.assists = stat['Assists']
+                match_stat.first_blood = stat['First_Blood']
+                match_stat.team_score = stat['Score']
                 match_stat.result = 'WIN' if stat['Wins'] > 0 else 'LOSS'
-                match_stat.playtime = stat['Playtime']
+                
+                # Parse playtime string to time object
+                try:
+                    hours, minutes = map(int, stat['Playtime'].split(':'))
+                    match_stat.playtime = time(hours, minutes)
+                except ValueError:
+                    match_stat.playtime = time(0, 0)
                 
                 match_stat.save()
             except MatchStatistics.DoesNotExist:
@@ -392,11 +396,11 @@ def update_match_statistics(request, match_id):
         stats_data = []
         for stat in updated_match_stats:
             stats_data.append({
-                'Player_IGN': stat.player.player_ign,
+                'Player_IGN': stat.player.ign,
                 'Kills': stat.kills,
                 'Deaths': stat.deaths,
                 'Assists': stat.assists,
-                'First_Blood': 1 if stat.first_blood else 0,
+                'First_Blood': stat.first_blood,
                 'Score': stat.team_score,
                 'Wins': 1 if stat.result.upper() == 'WIN' else 0,
                 'Losses': 1 if stat.result.upper() == 'LOSS' else 0,
