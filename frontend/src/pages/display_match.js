@@ -58,6 +58,11 @@ function DisplayMatch() {
             </div>
           </div>
 
+          <div className="match-stats">
+            <span>Total First Bloods: {matchDetails.total_first_bloods}</span>
+            <span>Total K/D/A: {matchDetails.total_kills}/{matchDetails.total_deaths}/{matchDetails.total_assists}</span>
+          </div>
+
           <div className="statistics-section">
             <div className="statistics-header">
               <h3>Match Statistics</h3>
@@ -74,13 +79,10 @@ function DisplayMatch() {
                 <thead>
                   <tr>
                     <th>Player</th>
-                    <th>Wins</th>
-                    <th>Losses</th>
-                    <th>First Blood</th>
-                    <th>Score</th>
                     <th>Kills</th>
                     <th>Deaths</th>
                     <th>Assists</th>
+                    <th>First Bloods</th>
                     <th>Playtime</th>
                   </tr>
                 </thead>
@@ -90,24 +92,18 @@ function DisplayMatch() {
                       <td>{stat.Player_IGN}</td>
                       {isEditing ? (
                         <>
-                          <td><input type="number" value={stat.Wins} onChange={e => handleStatUpdate(index, 'Wins', e.target.value)} /></td>
-                          <td><input type="number" value={stat.Losses} onChange={e => handleStatUpdate(index, 'Losses', e.target.value)} /></td>
-                          <td><input type="number" value={stat.First_Blood} onChange={e => handleStatUpdate(index, 'First_Blood', e.target.value)} /></td>
-                          <td><input type="number" value={stat.Score} onChange={e => handleStatUpdate(index, 'Score', e.target.value)} /></td>
                           <td><input type="number" value={stat.Kills} onChange={e => handleStatUpdate(index, 'Kills', e.target.value)} /></td>
                           <td><input type="number" value={stat.Deaths} onChange={e => handleStatUpdate(index, 'Deaths', e.target.value)} /></td>
                           <td><input type="number" value={stat.Assists} onChange={e => handleStatUpdate(index, 'Assists', e.target.value)} /></td>
+                          <td><input type="number" value={stat.First_Blood} onChange={e => handleStatUpdate(index, 'First_Blood', e.target.value)} /></td>
                           <td><input type="time" value={stat.Playtime} onChange={e => handleStatUpdate(index, 'Playtime', e.target.value)} /></td>
                         </>
                       ) : (
                         <>
-                          <td>{stat.Wins}</td>
-                          <td>{stat.Losses}</td>
-                          <td>{stat.First_Blood}</td>
-                          <td>{stat.Score}</td>
                           <td>{stat.Kills}</td>
                           <td>{stat.Deaths}</td>
                           <td>{stat.Assists}</td>
+                          <td>{stat.First_Blood}</td>
                           <td>{stat.Playtime}</td>
                         </>
                       )}

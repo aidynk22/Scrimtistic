@@ -7,8 +7,8 @@ function Welcome() {
 
   return (
     <div className="welcome-container">
-      <h1>Welcome to Scrimtastic</h1>
-      <p>Your Ultimate Varsity Scrimmage Data Viewer</p>
+      <h1>Welcome to Scrimtistic</h1>
+      <p>Your Ultimate Varsity Scrimmage Logger</p>
       
       <div className="button-container">
         <button 

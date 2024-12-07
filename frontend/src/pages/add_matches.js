@@ -23,7 +23,7 @@ function AddMatches() {
     kills: 0,
     deaths: 0,
     assists: 0,
-    first_blood: false,
+    first_blood: 0,
     playtime: '00:00'
   });
 
@@ -70,7 +70,7 @@ function AddMatches() {
       kills: 0,
       deaths: 0,
       assists: 0,
-      first_blood: false,
+      first_blood: 0,
       playtime: '00:00'
     });
   };
@@ -265,50 +265,51 @@ function AddMatches() {
               />
             </div>
 
-            <div className="stats-row">
-              <div className="input-group">
-                <label htmlFor="player-kills">Kills</label>
-                <input
-                  id="player-kills"
-                  type="number"
-                  min="0"
-                  value={currentPlayerStat.kills}
-                  onChange={(e) => setCurrentPlayerStat({...currentPlayerStat, kills: parseInt(e.target.value)})}
-                />
+            <div className="stats-grid">
+              <div className="stats-column">
+                <div className="input-group">
+                  <label htmlFor="player-kills">Kills</label>
+                  <input
+                    id="player-kills"
+                    type="number"
+                    min="0"
+                    value={currentPlayerStat.kills}
+                    onChange={(e) => setCurrentPlayerStat({...currentPlayerStat, kills: parseInt(e.target.value) || 0})}
+                  />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="player-deaths">Deaths</label>
+                  <input
+                    id="player-deaths"
+                    type="number"
+                    min="0"
+                    value={currentPlayerStat.deaths}
+                    onChange={(e) => setCurrentPlayerStat({...currentPlayerStat, deaths: parseInt(e.target.value) || 0})}
+                  />
+                </div>
               </div>
-
-              <div className="input-group">
-                <label htmlFor="player-deaths">Deaths</label>
-                <input
-                  id="player-deaths"
-                  type="number"
-                  min="0"
-                  value={currentPlayerStat.deaths}
-                  onChange={(e) => setCurrentPlayerStat({...currentPlayerStat, deaths: parseInt(e.target.value)})}
-                />
+              <div className="stats-column">
+                <div className="input-group">
+                  <label htmlFor="player-assists">Assists</label>
+                  <input
+                    id="player-assists"
+                    type="number"
+                    min="0"
+                    value={currentPlayerStat.assists}
+                    onChange={(e) => setCurrentPlayerStat({...currentPlayerStat, assists: parseInt(e.target.value) || 0})}
+                  />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="player-first-blood">First Bloods</label>
+                  <input
+                    id="player-first-blood"
+                    type="number"
+                    min="0"
+                    value={currentPlayerStat.first_blood}
+                    onChange={(e) => setCurrentPlayerStat({...currentPlayerStat, first_blood: parseInt(e.target.value) || 0})}
+                  />
+                </div>
               </div>
-
-              <div className="input-group">
-                <label htmlFor="player-assists">Assists</label>
-                <input
-                  id="player-assists"
-                  type="number"
-                  min="0"
-                  value={currentPlayerStat.assists}
-                  onChange={(e) => setCurrentPlayerStat({...currentPlayerStat, assists: parseInt(e.target.value)})}
-                />
-              </div>
-            </div>
-
-            <div className="input-group checkbox-group">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={currentPlayerStat.first_blood}
-                  onChange={(e) => setCurrentPlayerStat({...currentPlayerStat, first_blood: e.target.checked})}
-                />
-                Got First Blood
-              </label>
             </div>
 
             <div className="input-group">
@@ -335,7 +336,7 @@ function AddMatches() {
               <div className="player-stat-info">
                 <strong>{stat.player_ign}</strong>
                 <span>K/D/A: {stat.kills}/{stat.deaths}/{stat.assists}</span>
-                <span>First Blood: {stat.first_blood ? 'Yes' : 'No'}</span>
+                <span>First Bloods: {stat.first_blood}</span>
                 <span>Playtime: {stat.playtime}</span>
               </div>
               <button 
