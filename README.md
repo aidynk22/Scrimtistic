@@ -33,7 +33,11 @@ Create a `.env` file in the `backend/` directory:
 ```
 DEBUG=True
 SECRET_KEY=your_secret_key
-DATABASE_URL=your_database_url
+DB_NAME=your_database_name
+DB_USER=your_mysql_username
+DB_PASSWORD=your_mysql_password
+DB_HOST=localhost
+DB_PORT=3306
 ALLOWED_HOSTS=localhost,127.0.0.1
 ```
 ### Frontend
@@ -55,7 +59,8 @@ REACT_APP_API_URL=http://localhost:8000/api
 - Django
 - Django REST Framework
 - Python 3.x
-- PostgreSQL (recommended for production)
+- MySQL Client
+- mysqlclient (Python MySQL connector)
 
 ### Frontend
 - React
