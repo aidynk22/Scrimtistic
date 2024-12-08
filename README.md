@@ -1,5 +1,5 @@
 # Scrimtistic
-Scrimtistic is a Varsity Scrimmage Data Viewer that provides users with a platform to track, analyze, and visualize competitive match data. This application helps teams and analysts manage and review scrimmage statistics effectively.
+**Scrimtistic** is a Varsity Scrimmage Data Viewer and Logger that provides users with a platform to track, analyze, and visualize competitive match data. This application helps teams and analysts manage and review scrimmage statistics effectively.
 
 ## Project Structure
 * `backend/`: Django-based REST API
@@ -14,18 +14,22 @@ Scrimtistic is a Varsity Scrimmage Data Viewer that provides users with a platfo
     - `styles/`: CSS stylesheets
 
 ## How to Run
-1. Backend:   ```bash
+1. Backend:
+   ```bash
    cd backend
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
    python manage.py migrate
-   python manage.py runserver   ```
+   python manage.py runserver
+   ```
 
-2. Frontend:   ```bash
+3. Frontend:
+   ```bash
    cd frontend
    npm install
-   npm start   ```
+   npm start
+   ```
 
 ## Environment Variables
 ### Backend
